@@ -7,8 +7,9 @@
 param(
     [string]$Action = "validate",
     [string]$SupabaseUrl = "",
-    [string]$SupabaseKey = "",
-    [string]$PaystackKey = "",
+    [string]$SupabaseAnonKey = "",
+    [string]$SupabaseServiceKey = "",
+    [string]$PaystackPublicKey = "",
     [string]$PaystackSecret = "",
     
     [string]$AdminApiKey = ""
@@ -142,12 +143,13 @@ function Validate-Environment {
 function Update-EnvFiles {
     Write-Section "UPDATING ENVIRONMENT FILES"
     
-    if (-not $SupabaseUrl -or -not $SupabaseKey -or -not $PaystackKey) {
+    if (-not $SupabaseUrl -or -not $SupabaseAnonKey -or -not $SupabaseServiceKey -or -not $PaystackPublicKey -or -not $PaystackSecret -or -not $AdminApiKey) {
         Write-Warning-Custom "Skipping env file updates (missing parameters)"
         Write-Info-Custom "Provide all required parameters to auto-update:"
         Write-Info-Custom "  -SupabaseUrl"
-        Write-Info-Custom "  -SupabaseKey"
-        Write-Info-Custom "  -PaystackKey"
+        Write-Info-Custom "  -SupabaseAnonKey"
+        Write-Info-Custom "  -SupabaseServiceKey"
+        Write-Info-Custom "  -PaystackPublicKey"
         Write-Info-Custom "  -PaystackSecret"
         
         Write-Info-Custom "  -AdminApiKey"
@@ -162,11 +164,27 @@ function Update-EnvFiles {
     
     (Get-Content "jaguar-main/.env.production") -replace `
         'NEXT_PUBLIC_SUPABASE_ANON_KEY=.*', `
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY=$SupabaseKey" | Set-Content "jaguar-main/.env.production"
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY=$SupabaseAnonKey" | Set-Content "jaguar-main/.env.production"
+
+    (Get-Content "jaguar-main/.env.production") -replace `
+        'SUPABASE_SERVICE_ROLE_KEY=.*', `
+        "SUPABASE_SERVICE_ROLE_KEY=$SupabaseServiceKey" | Set-Content "jaguar-main/.env.production"
+
+    (Get-Content "jaguar-main/.env.production") -replace `
+        'SUPABASE_URL=.*', `
+        "SUPABASE_URL=$SupabaseUrl" | Set-Content "jaguar-main/.env.production"
+
+    (Get-Content "jaguar-main/.env.production") -replace `
+        'SUPABASE_KEY=.*', `
+        "SUPABASE_KEY=$SupabaseServiceKey" | Set-Content "jaguar-main/.env.production"
     
     (Get-Content "jaguar-main/.env.production") -replace `
         'NEXT_PUBLIC_PAYSTACK_KEY=.*', `
-        "NEXT_PUBLIC_PAYSTACK_KEY=$PaystackKey" | Set-Content "jaguar-main/.env.production"
+        "NEXT_PUBLIC_PAYSTACK_KEY=$PaystackPublicKey" | Set-Content "jaguar-main/.env.production"
+
+    (Get-Content "jaguar-main/.env.production") -replace `
+        'PAYSTACK_PUBLIC_KEY=.*', `
+        "PAYSTACK_PUBLIC_KEY=$PaystackPublicKey" | Set-Content "jaguar-main/.env.production"
     
     (Get-Content "jaguar-main/.env.production") -replace `
         'PAYSTACK_SECRET_KEY=.*', `
@@ -188,7 +206,7 @@ function Update-EnvFiles {
     
     (Get-Content "ict_trading_bot/.env.production") -replace `
         'SUPABASE_KEY=.*', `
-        "SUPABASE_KEY=$SupabaseKey" | Set-Content "ict_trading_bot/.env.production"
+        "SUPABASE_KEY=$SupabaseServiceKey" | Set-Content "ict_trading_bot/.env.production"
     
     # MT5 credentials are stored in Supabase via the Admin panel
     # Bot-to-web webhook secret removed - bot writes directly to Supabase

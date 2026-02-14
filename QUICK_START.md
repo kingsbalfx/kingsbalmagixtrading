@@ -96,8 +96,9 @@ cd "C:\Users\HP\Downloads\kingsbal\kingsbal magix trading"
 # Run deployment script
 .\deploy.ps1 -Action deploy-full `
   -SupabaseUrl "https://xxx.supabase.co" `
-  -SupabaseKey "eyJ..." `
-  -PaystackKey "pk_live_..." `
+  -SupabaseAnonKey "eyJ_anon..." `
+  -SupabaseServiceKey "eyJ_service..." `
+  -PaystackPublicKey "pk_live_..." `
   -PaystackSecret "sk_live_..." `
   -AdminApiKey "your_random_32_char_key"
 
@@ -134,7 +135,11 @@ python main.py
 # Then deploy web only
 .\deploy.ps1 -Action deploy-web `
   -SupabaseUrl "https://xxx.supabase.co" `
-  -PaystackKey "pk_live_..."
+  -SupabaseAnonKey "eyJ_anon..." `
+  -SupabaseServiceKey "eyJ_service..." `
+  -PaystackPublicKey "pk_live_..." `
+  -PaystackSecret "sk_live_..." `
+  -AdminApiKey "your_random_32_char_key"
 
 # Then deploy bot
 .\deploy.ps1 -Action deploy-bot

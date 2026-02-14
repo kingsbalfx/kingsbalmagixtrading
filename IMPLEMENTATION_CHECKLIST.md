@@ -171,7 +171,10 @@ SELECT COUNT(*) FROM bot_logs;        -- Should grow as bot runs
   ```powershell
   .\deploy.ps1 -Action deploy-web `
     -SupabaseUrl "https://xxx.supabase.co" `
-    -PaystackKey "pk_live_xxx" `
+    -SupabaseAnonKey "eyJ_anon..." `
+    -SupabaseServiceKey "eyJ_service..." `
+    -PaystackPublicKey "pk_live_xxx" `
+    -PaystackSecret "sk_live_xxx" `
     -AdminApiKey "your_secret"
   ```
   OR manually:
