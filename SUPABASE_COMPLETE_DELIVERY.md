@@ -352,7 +352,6 @@ For Trading Bot (Python):
 For Security:
 ├── User data protection (RLS)
 ├── Role-based access (admin/user roles)
-├── Payment verification (Paystack webhook)
 └── Audit trail (bot logs)
 ```
 
@@ -528,5 +527,7 @@ YouTube: Search "Supabase tutorial"
 **You've got everything you need!** 
 
 **Pick a guide above and start! Good luck!** 🚀
+
+
 
 

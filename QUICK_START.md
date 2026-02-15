@@ -296,8 +296,6 @@ curl -X POST https://kingsbalfx.name.ng/api/admin/bot-control \
 
 **"Payments not working"**
 - Verify Paystack LIVE keys (not test)
-- Check webhook URL: https://kingsbalfx.name.ng/api/paystack/webhook
-- Test with: `curl -X POST https://kingsbalfx.name.ng/api/paystack/webhook ...`
 
 **"MT5 connection failed"**
 - Update MT5 credentials in the Admin panel
@@ -354,5 +352,7 @@ Your platform is now production-ready at **https://kingsbalfx.name.ng**
 - ict_trading_bot/config/trading_pairs.py (trading pairs config)
 
 **Happy Trading! 🚀**
+
+
 
 

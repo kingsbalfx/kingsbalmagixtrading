@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const { email, amount, metadata } = req.body || {};
   if (!email || !amount) return res.status(400).json({ error: "email and amount required" });
 
-  const secret = process.env.PAYSTACK_SECRET;
+  const secret = process.env.PAYSTACK_SECRET_KEY;
   if (!secret) return res.status(500).json({ error: "paystack secret not configured" });
 
   try {

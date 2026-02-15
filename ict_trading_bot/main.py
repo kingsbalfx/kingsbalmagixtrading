@@ -226,7 +226,7 @@ while True:
             lot = resize_lot(lot, atr, atr_threshold)
 
             # -----------------------------
-            # PERSIST SIGNAL TO SUPABASE (no webhook)
+            # PERSIST SIGNAL TO SUPABASE
             # -----------------------------
             try:
                 persist_signal_to_supabase({

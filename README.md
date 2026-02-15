@@ -34,9 +34,7 @@ This README documents how I integrated the projects, what I fixed, and how to pu
 
 ## Summary of changes applied
 
-- Bot-to-web webhook removed: the trading bot now writes signals and logs directly to Supabase (`bot_signals`, `bot_logs`).
 - `ict_trading_bot/dashboard/bridge.py` now persists logs/signals using the official Supabase Python client with retries and logging.
-- Added `Dockerfile`, `.env.example`, `requirements.txt` and `scripts/test_webhook.py` for the bot.
 - Added MT5 helper wrappers in `ict_trading_bot/ict_concepts` (fib, fvg, order_blocks, market_structure) and made them defensive when MT5 returns no data.
 - Implemented `get_price` and `get_open_positions` in `ict_trading_bot/execution/mt5_connector.py` so `main.py` runs.
 - Updated Premium price to ₦90,000 across UI and Paystack integration.
@@ -62,7 +60,6 @@ cd ict_trading_bot
 python -m pip install -r requirements.txt
 set SUPABASE_URL=https://your_project_id.supabase.co
 set SUPABASE_KEY=your_service_role_key_here
-python scripts/test_webhook.py
 ```
 
 You should see the test script persist a sample log into Supabase (`bot_logs`). The web app reads signals/logs from Supabase for admin views.
@@ -72,15 +69,11 @@ You should see the test script persist a sample log into Supabase (`bot_logs`). 
 ## How to push a feature branch and open PR
 
 ```bash
-git checkout -b feat/integrate-bot-webhook
 git add jaguar-main/server.js ict_trading_bot/dashboard/bridge.py ict_trading_bot/requirements.txt \
-  ict_trading_bot/Dockerfile ict_trading_bot/.env.example ict_trading_bot/scripts/test_webhook.py \
   ict_trading_bot/ict_concepts/*.py ict_trading_bot/execution/mt5_connector.py jaguar-main/pages/pricing.js README.md
 git commit -m "Integrate bot Supabase persistence, MT5 wrappers, Dockerfile, update premium price"
-git push origin feat/integrate-bot-webhook
 ```
 
-Open a Pull Request from `feat/integrate-bot-webhook` → `main` at `https://github.com/kingsbalfx/jaguar.git`.
 
 ---
 
@@ -130,3 +123,5 @@ If you'd like, I can continue and implement the remaining steps now (HMAC signin
 
 
 # kingsbalmagixtrading
+
+

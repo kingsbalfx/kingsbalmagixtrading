@@ -39,7 +39,7 @@ async function run() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: "test@example.com", amount: 100000 }),
     });
-    // should fail gracefully without PAYSTACK_SECRET, or return proper auth error
+    // should fail gracefully without PAYSTACK_SECRET_KEY, or return proper auth error
     if (resp.status >= 500) throw new Error(`server error ${resp.status}`);
   });
 

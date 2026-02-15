@@ -41,9 +41,8 @@ SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_KEY=your_service_role_key
 
 # Paystack
-PAYSTACK_SECRET=sk_test_xxx (or sk_live_xxx for production)
-PAYSTACK_PUBLIC=pk_test_xxx (or pk_live_xxx)
-PAYSTACK_WEBHOOK_SECRET=your_webhook_secret
+PAYSTACK_SECRET_KEY=sk_test_xxx (or sk_live_xxx for production)
+PAYSTACK_PUBLIC_KEY=pk_test_xxx (or pk_live_xxx)
 
 # Security
 ADMIN_API_KEY=your_super_secret_admin_key
@@ -142,11 +141,9 @@ curl -X POST https://kingsbalfx.name.ng/api/init-paystack \
 # Should return authorization_url (or error if keys missing)
 ```
 
-### Step 3: Simulate webhook
 
 ```bash
 # From repo root
-node scripts/send_paystack_webhook.js
 
 # Check admin dashboard → Payments to see the event logged
 ```
@@ -168,7 +165,6 @@ The bot now writes signals and logs directly to Supabase. To test locally:
 # Ensure Supabase envs are set in your shell
 export SUPABASE_URL=https://your-project.supabase.co
 export SUPABASE_KEY=your_service_role_key
-python ict_trading_bot/scripts/test_webhook.py
 ```
 
 Then check the `bot_logs` and `bot_signals` tables in the Supabase dashboard or the admin UI at `https://kingsbalfx.name.ng/admin/bot-logs`.
@@ -201,7 +197,6 @@ Before deploying to production:
 
 ### Security
 - [ ] Review `.env` — ensure no hardcoded secrets
-- [ ] Rotate all secrets (Supabase keys, Paystack live keys, Paystack webhook secrets)
 - [ ] Enable HTTPS on domain
 - [ ] Review `SECURITY_CHECKLIST.md` and address all [ ] items
 - [ ] Run RLS policies from `RLS_SETUP.sql` in Supabase
@@ -249,8 +244,6 @@ Before deploying to production:
 ### "Supabase connection error"
 → Check NEXT_PUBLIC_SUPABASE_URL and SUPABASE_KEY in `.env`
 
-### "Paystack webhook not processing"
-→ Verify PAYSTACK_WEBHOOK_SECRET matches Paystack dashboard
 
 ### Bot not trading after deployment
 → Check MT5 connection in bot logs: `/admin/bot-logs`
@@ -270,7 +263,6 @@ Before deploying to production:
 │  │  └─ Analytics Dashboard
 │  └─ APIs
 │     ├─ /api/init-paystack
-│     ├─ /api/paystack-webhook
 │     └─ /api/admin/*
 │
 ├─ Trading Bot (port:8000)
@@ -322,6 +314,8 @@ Your integrated trading platform is now ready to run locally and deploy to produ
 **Setup Time**: ~30-45 minutes
 **Next Milestone**: Deploy to production
 **Support**: Check logs in `/admin/bot-logs` and error tracking in your Sentry account (if configured)
+
+
 
 
 

@@ -15,7 +15,6 @@
     "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
     "PAYSTACK_PUBLIC_KEY": "@paystack_public_key",
     "PAYSTACK_SECRET_KEY": "@paystack_secret_key",
-    "PAYSTACK_WEBHOOK_SECRET": "@paystack_webhook_secret",
     "ADMIN_API_KEY": "@admin_api_key",
     "NEXT_PUBLIC_DOMAIN": "https://kingsbalfx.name.ng",
     "NODE_ENV": "production"
@@ -38,8 +37,7 @@
     { "source": "/vip", "destination": "/dashboard/vip", "permanent": false },
     { "source": "/premium", "destination": "/dashboard/premium", "permanent": false },
     { "source": "/checkout/success", "destination": "/checkout/success", "permanent": false },
-    { "source": "/api/paystack/verify", "destination": "/api/paystack/verify", "permanent": false },
-    { "source": "/api/paystack/webhook", "destination": "/api/paystack/webhook", "permanent": false }
+    { "source": "/api/paystack/verify", "destination": "/api/paystack/verify", "permanent": false }
   ],
 
   "headers": [

@@ -30,7 +30,6 @@ The Jaguar (web) and ICT Trading Bot projects have been successfully merged into
 
 #### 4. Payment & Subscription System
 - Paystack initialization endpoint (`POST /api/init-paystack`)
-- Webhook receiver (`POST /api/paystack-webhook`) with signature verification
 - Auto-grant lifetime access on successful charge
 - Admin control to toggle lifetime access per user
 - Subscription records in Supabase (if table exists)
@@ -39,8 +38,6 @@ The Jaguar (web) and ICT Trading Bot projects have been successfully merged into
 | Route | Method | Auth | Purpose |
 |-------|--------|------|---------|
 | `/health` | GET | None | Web app health |
-| `/api/trades` | POST | REMOVED | Bot webhook removed — bot writes to Supabase |
-| `/api/paystack-webhook` | POST | HMAC-SHA512 | Payment confirmation |
 | `/api/init-paystack` | POST | None | Initiate payment |
 | `/api/admin/payments` | GET | x-admin-secret | List payments |
 | `/api/admin/bot-logs` | GET | Session + Admin role | List bot logs |
@@ -49,13 +46,11 @@ The Jaguar (web) and ICT Trading Bot projects have been successfully merged into
 #### 6. Testing & Deployment
 - Node smoke tests: `scripts/smoke-tests.js`
 - Python smoke tests: `ict_trading_bot/scripts/smoke_tests.py`
-- Webhook test script: `scripts/send_paystack_webhook.js`
 - Deployment checklist: `DEPLOYMENT_CHECKLIST.md`
 - Security checklist: `SECURITY_CHECKLIST.md`
 - RLS setup guide: `RLS_SETUP.sql`
 
 #### 7. Security
-- HMAC signature verification on Paystack webhook
 - Timing-safe comparison for secrets
 - Session-based auth for admin pages
 - Role-based access control (admin only)
@@ -69,7 +64,6 @@ The Jaguar (web) and ICT Trading Bot projects have been successfully merged into
 - [x] Health endpoints respond (requires running services)
 - [x] API routes skeleton in place and callable
 - [x] Supabase integration scaffolded (session + queries)
-- [x] Paystack integration scaffolded (init + webhook)
 - [x] Admin UI pages created and server-side protected
 - [x] Bot API endpoints functional
 - [x] Smoke test scripts created
@@ -90,7 +84,6 @@ The Jaguar (web) and ICT Trading Bot projects have been successfully merged into
 
 3. **Testing**:
    - Run smoke tests locally
-   - Test subscription flow end-to-end (UI → Paystack → webhook → DB)
    - Verify admin pages load and function correctly
    - Check bot logs appear in admin UI
 
@@ -99,7 +92,6 @@ The Jaguar (web) and ICT Trading Bot projects have been successfully merged into
    - Enable Supabase RLS policies
    - Rotate all secrets before production deployment
    - Set up HTTPS on the domain
-   - Enable WAF and rate limiting on Paystack webhook + admin endpoints
 
 5. **Deployment**:
    - Merge to main branch
@@ -125,7 +117,6 @@ The Jaguar (web) and ICT Trading Bot projects have been successfully merged into
    - User navigates to `/subscribe`
    - Enters email
    - Redirected to Paystack checkout
-   - On success, webhook grants lifetime access
 
 2. **Admin Dashboard**:
    - Super admin signs in
@@ -150,5 +141,7 @@ All 10 integration steps have been completed, tested (smoke tests), and document
 Generated: 2026-02-10
 Merged by: GitHub Copilot
 Next review: Pre-production security audit
+
+
 
 

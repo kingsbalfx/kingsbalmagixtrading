@@ -8,10 +8,8 @@ import { createServer } from "http";
 import next from "next";
 import { parse } from "url";
 import { WebSocketServer } from "ws";
-import crypto from "crypto";
 // Import Supabase AFTER dotenv config loads
 import { getSupabaseClient } from "./lib/supabaseClient.js";
-import { verifySignature, handlePaystackEvent } from "./lib/paystack.js";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -29,38 +27,8 @@ app.prepare().then(() => {
       return;
     }
 
-    // NOTE: Trade webhook removed per configuration — bot should write directly to Supabase.
-    // The /api/trades incoming webhook handler was intentionally removed to rely on
-    // Supabase as the single source of truth for signals and logs. Retain Paystack
-    // webhook handling below for payment processing.
-
-    // Paystack webhook receiver: verifies signature and saves event to Supabase
-    if (req.method === "POST" && parsedUrl.pathname === "/api/paystack-webhook") {
-      let body = "";
-      req.on("data", (chunk) => (body += chunk));
-      req.on("end", async () => {
-        const sig = req.headers["x-paystack-signature"] || req.headers["x-paystack-signature".toLowerCase()];
-        const secret = process.env.PAYSTACK_WEBHOOK_SECRET || process.env.PAYSTACK_SECRET;
-        if (secret) {
-          if (!verifySignature(body, sig, secret)) {
-            res.statusCode = 401;
-            res.end("Invalid signature");
-            return;
-          }
-        }
-
-        try {
-          const eventJson = JSON.parse(body);
-          await handlePaystackEvent(body, eventJson);
-          res.statusCode = 200;
-          res.end("ok");
-        } catch (e) {
-          res.statusCode = 400;
-          res.end("invalid json");
-        }
-      });
-      return;
-    }
+    // NOTE: No inbound callbacks are used. Bot writes directly to Supabase.
+    // Payment verification is handled via Paystack transaction verification on checkout success.
 
     // Admin route to fetch recent payments (requires ADMIN_API_KEY header)
     if (req.method === "GET" && parsedUrl.pathname === "/api/admin/payments") {

@@ -34,7 +34,6 @@ This is a monorepo combining a **web platform** (Jaguar) and a **trading bot** (
          │  (Payments)   │    │   (Database)   │
          │               │    │                │
          │ - Checkout    │    │ Tables:        │
-         │ - Webhook     │    │ - profiles     │
          │               │    │ - payments     │
          └───────────────┘    │ - subscriptions│
                               │ - bot_logs    │
@@ -45,7 +44,6 @@ This is a monorepo combining a **web platform** (Jaguar) and a **trading bot** (
          │
          │ Persistence / Integrations:
          │ - Bot writes to Supabase `bot_signals` and `bot_logs`
-         │ - /api/paystack-webhook (payments)
          │ - Control API
          │
          │
@@ -89,7 +87,6 @@ This is a monorepo combining a **web platform** (Jaguar) and a **trading bot** (
 5. API returns Paystack authorization URL
 6. User is redirected to Paystack payment gateway
 7. User completes payment on Paystack
-8. Paystack sends webhook POST /api/paystack-webhook with signature
 9. Web app validates signature and processes charge.success event
 10. Web updates profiles.lifetime = true for that email
 11. User now has lifetime access (bot works)
@@ -108,12 +105,10 @@ This is a monorepo combining a **web platform** (Jaguar) and a **trading bot** (
 | Layer | Tech | Purpose |
 |-------|------|---------|
 | Frontend | Next.js, React | User interface & admin dashboard |
-| Backend | Node.js, Express-like | API routes, Paystack webhook, auth |
 | Database | Supabase (PostgreSQL) | Users, payments, logs |
 | Auth | Supabase Auth | User session management |
 | Payments | Paystack | Payment processing |
 | Bot | Python 3.11 | Trading strategy, MT5 |
-| Webhooks | HMAC-SHA256/512 | Secure event delivery |
 | ORM | Supabase JS SDK | Database queries |
 | Real-time | WebSocket | Live trade updates |
 | Deployment | Docker | Containerized services |
@@ -159,8 +154,6 @@ This is a monorepo combining a **web platform** (Jaguar) and a **trading bot** (
 - Role-based access control (RBAC) for admin pages
 - x-admin-secret header for non-session admin endpoints
 
-### Paystack Webhook
-- Incoming Paystack webhook signed with HMAC
 - Signature verified with timing-safe comparison
 - Prevents replay and tamper attacks
 
@@ -176,7 +169,6 @@ This is a monorepo combining a **web platform** (Jaguar) and a **trading bot** (
 1. **Database**: Supabase handles horizontal scaling
 2. **APIs**: Stateless Node.js services (auto-scale with Docker Swarm/K8s)
 3. **Bot**: Currently single instance; can be replicated with shared queue (Redis)
-4. **Webhooks**: Implement retry logic + queue (Bull, RabbitMQ) for high volume
 5. **WebSocket**: Use Redis pub/sub for multi-instance broadcasting
 
 ## Monitoring & Observability
@@ -197,5 +189,7 @@ This is a monorepo combining a **web platform** (Jaguar) and a **trading bot** (
 ---
 
 **Last Updated**: Feb 10, 2026
+
+
 
 

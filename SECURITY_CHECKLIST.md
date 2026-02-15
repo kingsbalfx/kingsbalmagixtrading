@@ -5,7 +5,6 @@
 - [x] `.env` is gitignored (add to `.gitignore` if not already present)
 - [x] All secrets are in `.env`, never in code or `.env.example`
 - [x] Rotate Supabase keys, Paystack secret, and ADMIN_API_KEY before production
-- [x] Use strong values for `PAYSTACK_WEBHOOK_SECRET`
 
 ## 2. API Authentication & Authorization
 
@@ -14,10 +13,6 @@
 - [x] `/admin/*` routes check user role (must be "admin") via Supabase profiles table
 - [x] API routes use `createServerSupabaseClient` to verify session
 
-### Webhook Signatures / Integrations
-- [x] `/api/paystack-webhook` verifies HMAC-SHA512 signature header
-- [x] Bot-to-web webhook removed — bot persists signals directly to Supabase; secure service keys server-side
-- [x] Use timing-safe comparison when verifying any incoming webhook signature
 
 ### Admin-only Endpoints
 - [x] `/api/admin/payments` requires `x-admin-secret` header matching `ADMIN_API_KEY`
@@ -35,22 +30,19 @@
 ## 4. Transport Security
 
 - [x] HTTPS enforced in production (via environment variable checks)
-- [x] Webhook endpoints only accept POST (other methods return 405)
 - [x] Admin endpoints return 401/403 on auth failures
 
 ## 5. Secrets Not to Commit
 
 - ❌ SUPABASE_SERVICE_ROLE_KEY (server-side only)
-- ❌ PAYSTACK_SECRET (never in frontend code)
+- ❌ PAYSTACK_SECRET_KEY (never in frontend code)
  
-- ❌ PAYSTACK_WEBHOOK_SECRET
 - ❌ ADMIN_API_KEY
 
 ## 6. Third-party Integrations
 
 ### Paystack
-- [x] Use `PAYSTACK_SECRET` for all server-side requests
-- [x] Webhook signature verification enabled
+- [x] Use `PAYSTACK_SECRET_KEY` for all server-side requests
 - [x] Payload validated before processing (charge.success handler checks email/amount)
 
 ### Supabase
@@ -66,7 +58,6 @@
 
 ## 8. Rate Limiting & DDoS
 
-- [ ] Consider adding rate-limit middleware to Paystack webhook and admin endpoints
 - [ ] Consider adding WAF (Web Application Firewall) in production
 
 ## 9. Production Deployment Steps
@@ -74,13 +65,11 @@
 1. Generate new secrets for production:
    - New Supabase URL and keys
    - New Paystack keys (production mode)
-   - New Paystack webhook secrets
 
 2. Set environment variables securely (via CI/CD secrets, not hardcoded)
 
 3. Enable Supabase RLS on all tables (via SQL)
 
-4. Test webhook delivery with Paystack staging → production transition
 
 5. Enable HTTPS on the domain
 
@@ -104,5 +93,7 @@
 ---
 
 **Ready for Production:** Once all items are checked, the application is ready for production deployment.
+
+
 
 

@@ -24,7 +24,6 @@ SUPABASE:
 PAYSTACK (LIVE MODE - NOT TEST):
   ✓ Live Public Key                   (pk_live_...)
   ✓ Live Secret Key                   (sk_live_...)
-  ✓ Webhook Secret                    (your_secure_secret)
 
 MT5 ACCOUNT:
   ✓ Set in Admin panel (stored in Supabase)
@@ -73,7 +72,6 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 # PAYSTACK - Use LIVE keys
 NEXT_PUBLIC_PAYSTACK_KEY=pk_live_xxxxxxxxxxxxx
 PAYSTACK_SECRET_KEY=sk_live_xxxxxxxxxxxxx
-PAYSTACK_WEBHOOK_SECRET=your_webhook_secret
 
 # TRADING BOT
 BOT_API_URL=https://kingsbalfx.name.ng/api/bot
@@ -322,7 +320,6 @@ SELECT plan, COUNT(*) FROM subscriptions GROUP BY plan;
 ✓ Security headers set     (vercel.json)
 ✓ Rate limiting enabled    (.env.production)
 ✓ Admin API key protected  (32+ char random)
-✓ Paystack webhook signature verified (HMAC-SHA256)
 ```
 
 ### Supabase Security
@@ -370,19 +367,10 @@ vercel env ls
 vercel --prod --env-file jaguar-main/.env.production
 ```
 
-### Issue 2: Paystack Webhook Not Received
-**Cause**: Webhook URL or signature mismatch  
 **Solution**:
 ```bash
-# Verify webhook URL in Paystack dashboard
-# Should be: https://kingsbalfx.name.ng/api/paystack/webhook
 
-# Check Paystack webhook secret matches
-# Paystack: PAYSTACK_WEBHOOK_SECRET
-# Code: process.env.PAYSTACK_WEBHOOK_SECRET
 
-# Test webhook:
-curl -X POST https://kingsbalfx.name.ng/api/paystack/webhook \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer sk_live_..." \
   -d '{"event":"charge.success",...}'
@@ -492,7 +480,6 @@ Alert on errors:
 ALERT_ON_ERROR=true
 
 Slack notifications:
-SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
 ```
 
 ---
@@ -509,5 +496,7 @@ Your platform is now live at: **https://kingsbalfx.name.ng**
 5. ✅ Scale infrastructure as needed
 
 **Happy Trading! 🚀**
+
+
 
 

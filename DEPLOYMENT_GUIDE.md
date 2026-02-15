@@ -13,7 +13,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY = your-production-anon-key
 SUPABASE_SERVICE_ROLE_KEY = your-production-service-role-key
 PAYSTACK_PUBLIC_KEY = pk_live_xxxxx (NOT test key!)
 PAYSTACK_SECRET_KEY = sk_live_xxxxx (NOT test key!)
-PAYSTACK_WEBHOOK_SECRET = your_webhook_secret
 ADMIN_API_KEY = your_admin_api_key
 NEXT_PUBLIC_DOMAIN = https://kingsbalfx.name.ng
 NODE_ENV = production
@@ -148,7 +147,6 @@ vercel logs --follow
 - [ ] Service keys never committed to git
 - [ ] SSL/HTTPS enabled (auto by Vercel)
 - [ ] CORS properly configured for kingsbalfx.name.ng
-- [ ] Paystack webhook signature verification enabled
 - [ ] Database backups enabled in Supabase
 - [ ] Admin API key rotated and secure
 - [ ] Paystack account in LIVE mode (not test)
@@ -164,9 +162,6 @@ vercel logs --follow
 - MT5 not running on production server
 - Firewall blocking connection
 
-### "Paystack webhook failures"
-- `PAYSTACK_WEBHOOK_SECRET` mismatch between web app and Paystack
-- Paystack webhook not pointing to new domain
 
 ### "Database connection refused"
 - Supabase connection string incorrect
@@ -187,5 +182,7 @@ For deployment issues:
 **Domain:** https://kingsbalfx.name.ng  
 **Platform:** Vercel  
 **Live:** ✅ Ready
+
+
 
 

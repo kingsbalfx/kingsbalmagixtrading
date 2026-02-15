@@ -36,10 +36,8 @@
 
 ## Test Files (NEW - 2 files)
 ✅ `jaguar-main/scripts/smoke-tests.js` — Node smoke tests
-✅ `jaguar-main/scripts/send_paystack_webhook.js` — Webhook simulator
 
 ## Modified Core Files
-✅ `jaguar-main/server.js` — Added Paystack webhook, admin endpoints
 ✅ `jaguar-main/lib/paystack.js` — Updated with lifetime grant logic
 ✅ `jaguar-main/pages/admin/users.js` — Full user management UI
 ✅ `jaguar-main/pages/subscribe.js` — Subscription purchase page
@@ -157,6 +155,8 @@
 ✅ **Maintenance** — Code quality & patterns
 
 ---
+
+
 
 
 

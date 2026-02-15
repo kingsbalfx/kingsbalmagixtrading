@@ -26,14 +26,6 @@ export const openAPISchema = {
         responses: { 200: { description: "Payment initialized", content: { "application/json": { schema: { $ref: "#/components/schemas/PaystackResponse" } } } } },
       },
     },
-    "/api/paystack-webhook": {
-      post: {
-        summary: "Paystack webhook (payment confirmation)",
-        security: [{ HmacSha512: [] }],
-        requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/PaystackEvent" } } } },
-        responses: { 200: { description: "Event processed" } },
-      },
-    },
     "/api/admin/payments": {
       get: {
         summary: "List all payments (admin only)",
@@ -93,10 +85,6 @@ export const openAPISchema = {
         properties: { email: { type: "string" }, amount: { type: "integer" } },
       },
       PaystackResponse: { type: "object", properties: { data: { properties: { authorization_url: { type: "string" }, access_code: { type: "string" } } } } },
-      PaystackEvent: {
-        type: "object",
-        properties: { event: { type: "string", example: "charge.success" }, data: { type: "object" } },
-      },
       PaymentsList: { type: "object", properties: { payments: { type: "array", items: { $ref: "#/components/schemas/Payment" } } } },
       Payment: { type: "object", properties: { id: { type: "string" }, amount: { type: "integer" }, status: { type: "string" }, received_at: { type: "string" } } },
       UsersList: { type: "object", properties: { users: { type: "array", items: { $ref: "#/components/schemas/User" } } } },
@@ -122,7 +110,6 @@ export const openAPISchema = {
       },
     },
     securitySchemes: {
-      HmacSha512: { type: "apiKey", in: "header", name: "x-paystack-signature" },
       AdminKey: { type: "apiKey", in: "header", name: "x-admin-secret" },
       SessionAuth: { type: "http", scheme: "bearer" },
     },

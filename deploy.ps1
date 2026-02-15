@@ -190,7 +190,7 @@ function Update-EnvFiles {
         'PAYSTACK_SECRET_KEY=.*', `
         "PAYSTACK_SECRET_KEY=$PaystackSecret" | Set-Content "jaguar-main/.env.production"
     
-    # Trade webhook secret removed - no replacement necessary
+    # Trade secret removed - no replacement necessary
     
     (Get-Content "jaguar-main/.env.production") -replace `
         'ADMIN_API_KEY=.*', `
@@ -209,7 +209,7 @@ function Update-EnvFiles {
         "SUPABASE_KEY=$SupabaseServiceKey" | Set-Content "ict_trading_bot/.env.production"
     
     # MT5 credentials are stored in Supabase via the Admin panel
-    # Bot-to-web webhook secret removed - bot writes directly to Supabase
+    # Bot writes directly to Supabase
     
     Write-Success "Updated ict_trading_bot/.env.production"
 }
